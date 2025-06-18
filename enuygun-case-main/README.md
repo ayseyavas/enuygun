@@ -13,7 +13,7 @@ Her iki pool da n2d-standard-4 tipinde ve europe-west1 bölgesinde konumlandır�
 
 Sample Uygulama Deploy Edilmesi
 Uygulama sadece application-pool'da çalışacak şekilde nodeSelector ve toleration ile konfigüre edildi.
-![image](https://github.com/user-attachments/assets/c568a07c-30a1-4a89-bae8-721b5b0c0dd1)
+
 
 
 HPA ile Otomatik Pod Ölçekleme
@@ -30,9 +30,13 @@ Pod restart sayısına göre alarm tanımlandı. 5 dakikada eşiğin aşılması
 
 KEDA ile Gelişmiş Ölçekleme
 keda.tf ile CPU bazlı node autoscaling (min 1 - max 3) yapılandırıldı. KEDA kullanılarak HPA alternatifi olarak test edildi.
+![image](https://github.com/user-attachments/assets/3f4b4b7b-9f32-4ebc-9185-63e139730f00)
+
 
 Istio Entegrasyonu
 Istio bileşenleri (istio-base, istiod, ingress, egress) kuruldu. istio-injection aktif edildi. Gateway ve VirtualService ile dış erişim sağlandı.
 ![image](https://github.com/user-attachments/assets/2de83d03-19ba-4443-952d-d4e5d5df2329)
 ![image](https://github.com/user-attachments/assets/17f5d7c1-1d38-43ca-a66d-cdf0736129a0)
+
+![image](https://github.com/user-attachments/assets/bdbeca69-38db-47ee-8a2f-c7c3134fd3cf)
 
