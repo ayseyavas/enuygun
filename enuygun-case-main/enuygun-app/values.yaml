@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enuygun-app
+  labels:
+    app: enuygun-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enuygun-app
+  template:
+    metadata:
+      labels:
+        app: enuygun-app
+    spec:
+      containers:
+        - name: enuygun-app
+          image: nginx:stable
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 200m
+          ports:
+            - containerPort: 80
+      nodeSelector:
+        cloud.google.com/gke-nodepool: application-pool
+      tolerations:
+        - key: "app-pool"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keda-cpu-app
+  labels:
+    app: keda-cpu-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keda-cpu-app
+  template:
+    metadata:
+      labels:
+        app: keda-cpu-app
+    spec:
+      containers:
+      - name: app
+        image: vish/stress
+        args:
+          - -cpus
+          - "1"
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 200m
+        ports:
+        - containerPort: 8080
+      nodeSelector:
+        cloud.google.com/gke-nodepool: application-pool
+      tolerations:
+      - key: "app-pool"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: keda-cpu-scaler
+spec:
+  scaleTargetRef:
+    name: keda-cpu-app
+  pollingInterval: 10
+  cooldownPeriod: 30
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  triggers:
+  - type: cpu
+    metadata:
+      type: Utilization
+      value: "25"
+

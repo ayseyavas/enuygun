@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "enuygun-app.fullname" . }}
+  labels:
+    app: {{ include "enuygun-app.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "enuygun-app.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "enuygun-app.name" . }}
+    spec:
+      containers:
+        - name: {{ include "enuygun-app.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+      nodeSelector: {{ .Values.nodeSelector | toYaml | nindent 8 }}
+      tolerations: {{ .Values.tolerations | toYaml | nindent 8 }}

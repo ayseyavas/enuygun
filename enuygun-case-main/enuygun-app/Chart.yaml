@@ -1,0 +1,4 @@
+apiVersion: v2
+name: enuygun-app
+description: A simple nginx app deployed to application-pool
+version: 0.1.0
